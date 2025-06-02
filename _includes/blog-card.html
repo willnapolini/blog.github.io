@@ -1,0 +1,449 @@
+<!-- Blog Card Component for Jekyll -->
+<!-- Usage: {% include blog-card.html post=post %} -->
+
+{% assign card_post = include.post %}
+{% assign card_id = card_post.id | replace: '/', '_' | replace: '-', '_' %}
+
+<div class="blog-card" data-card-id="{{ card_id }}">
+  <div class="header-image">
+    <img src="{{ card_post.image | default: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop' }}" 
+         alt="{{ card_post.title }}">
+    <span class="category">{{ card_post.category | default: 'Технологии' }}</span>
+  </div>
+  
+  <div class="content">
+    <h2 class="title" onclick="window.location.href='{{ card_post.url }}'">{{ card_post.title }}</h2>
+    <p class="excerpt">{{ card_post.excerpt | strip_html | truncatewords: 25 }}</p>
+    
+    <div class="author-section">
+      <div class="author-info">
+        <div class="avatar">
+          {% assign author_initials = card_post.author | default: 'Автор' | split: ' ' %}
+          {% for name in author_initials limit: 2 %}{{ name | slice: 0 }}{% endfor %}
+        </div>
+        <div class="author-details">
+          <span class="author-name">{{ card_post.author | default: 'Автор' }}</span>
+          <span class="date">{{ card_post.date | date: "%-d %B %Y" }}</span>
+        </div>
+      </div>
+      <button class="expand-button" onclick="toggleExpand('{{ card_id }}')">
+        <span>Подробнее</span>
+        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+  
+  <div class="details" id="details-{{ card_id }}">
+    <div class="details-content">
+      <div class="meta-info">
+        <div>
+          <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span>{{ card_post.reading_time | default: '5' }} мин</span>
+        </div>
+        <div><span class="text-gray-400">•</span> <span>{{ card_post.category | default: 'Технологии' }}</span></div>
+      </div>
+      
+      {% if card_post.tags %}
+      <div class="tags">
+        {% for tag in card_post.tags %}
+        <span class="tag">
+          <svg class="icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+          </svg>
+          {{ tag }}
+        </span>
+        {% endfor %}
+      </div>
+      {% endif %}
+      
+      <h3 class="font-semibold text-lg mb-4">Полное содержание</h3>
+      <div class="full-content">
+        {{ card_post.content | strip_html | truncatewords: 100 }}
+      </div>
+      
+      <div class="action-buttons">
+        <button class="action-button like-button" onclick="toggleLike('{{ card_id }}')">
+          <svg class="heart-icon icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span class="like-count" id="like-count-{{ card_id }}">{{ card_post.likes | default: 0 }}</span>
+        </button>
+        <button class="action-button">
+          <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 11.5a8.38 8.38 0 0 1-8.5 7 8.38 8.38 0 0 1-8.5-7"></path>
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span>{{ card_post.comments | default: 0 }}</span>
+        </button>
+        <button class="action-button">
+          <svg class="icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+            <polyline points="16 6 12 2 8 6"></polyline>
+            <line x1="12" y1="2" x2="12" y2="15"></line>
+          </svg>
+          <span>Поделиться</span>
+        </button>
+      </div>
+      
+      <div class="additional-actions">
+        <button class="action-btn read-btn" onclick="window.location.href='{{ card_post.url }}'">
+          Читать полностью
+        </button>
+        <button class="action-btn save-btn" onclick="savePost('{{ card_id }}')">
+          Сохранить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.blog-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 24px;
+}
+
+.blog-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.header-image {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+}
+
+.header-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover .header-image img {
+  transform: scale(1.05);
+}
+
+.category {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: #3b82f6;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.content {
+  padding: 24px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.title:hover {
+  color: #2563eb;
+}
+
+.excerpt {
+  font-size: 16px;
+  color: #4b5563;
+  margin-bottom: 16px;
+}
+
+.author-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(to bottom right, #3b82f6, #9333ea);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.author-details span {
+  display: block;
+}
+
+.author-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.date {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.expand-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  touch-action: manipulation;
+}
+
+.expand-button:hover {
+  background: #2563eb;
+}
+
+.details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.details.expanded {
+  max-height: 600px;
+  opacity: 1;
+}
+
+.details-content {
+  padding: 24px 24px 24px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.meta-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 16px;
+}
+
+.meta-info .icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f3f4f6;
+  color: #374151;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.tag:hover {
+  background: #e5e7eb;
+}
+
+.tag .icon {
+  width: 12px;
+  height: 12px;
+}
+
+.full-content {
+  font-size: 16px;
+  color: #374151;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  white-space: pre-line;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.action-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  touch-action: manipulation;
+}
+
+.action-button:hover {
+  background: #e5e7eb;
+}
+
+.like-button.liked {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.like-button.liked .heart-icon {
+  fill: #dc2626;
+}
+
+.additional-actions {
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  gap: 12px;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  touch-action: manipulation;
+}
+
+.read-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.read-btn:hover {
+  background: #2563eb;
+}
+
+.save-btn {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.save-btn:hover {
+  background: #e5e7eb;
+}
+
+@media (min-width: 640px) {
+  .header-image {
+    height: 192px;
+  }
+
+  .category {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}
+</style>
+
+<script>
+// Global object to track card states
+if (typeof window.blogCardStates === 'undefined') {
+  window.blogCardStates = {};
+}
+
+function toggleExpand(cardId) {
+  const isExpanded = window.blogCardStates[cardId]?.expanded || false;
+  const newState = !isExpanded;
+  
+  const details = document.getElementById('details-' + cardId);
+  const button = document.querySelector(`[data-card-id="${cardId}"] .expand-button`);
+  const icon = button.querySelector('svg');
+  
+  details.classList.toggle('expanded', newState);
+  button.querySelector('span').textContent = newState ? 'Свернуть' : 'Подробнее';
+  icon.innerHTML = newState 
+    ? '<polyline points="6 15 12 9 18 15"></polyline>'
+    : '<polyline points="6 9 12 15 18 9"></polyline>';
+  
+  // Store state
+  window.blogCardStates[cardId] = { 
+    ...window.blogCardStates[cardId], 
+    expanded: newState 
+  };
+}
+
+function toggleLike(cardId) {
+  const currentState = window.blogCardStates[cardId] || {};
+  const isLiked = currentState.liked || false;
+  const newLikedState = !isLiked;
+  
+  const button = document.querySelector(`[data-card-id="${cardId}"] .like-button`);
+  const count = document.getElementById('like-count-' + cardId);
+  const currentCount = parseInt(count.textContent) || 0;
+  
+  button.classList.toggle('liked', newLikedState);
+  count.textContent = currentCount + (newLikedState ? 1 : -1);
+  
+  // Store state
+  window.blogCardStates[cardId] = { 
+    ...currentState, 
+    liked: newLikedState 
+  };
+}
+
+function savePost(cardId) {
+  // You can implement actual save functionality here
+  alert('Пост сохранен!');
+  
+  // Store state
+  window.blogCardStates[cardId] = { 
+    ...window.blogCardStates[cardId], 
+    saved: true 
+  };
+}
+</script>
