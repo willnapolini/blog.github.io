@@ -1,0 +1,63 @@
+# Site settings
+title: "Ваш Блог"
+description: "Блог о веб-разработке и технологиях"
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://yourusername.github.io" # replace with your GitHub Pages URL
+author: "Ваше Имя"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+permalink: /:year/:month/:day/:title/
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /:collection/:year/:month/:day/:title/
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclude files from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+
+# Default values
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      author: "Автор по умолчанию"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# Site navigation
+navigation:
+  - name: "Главная"
+    url: "/"
+  - name: "О блоге"
+    url: "/about/"
+  - name: "Архив"
+    url: "/archive/"
+
+# Social links (optional)
+social:
+  github: "yourusername"
+  twitter: "yourusername"
+  email: "your.email@example.com"
