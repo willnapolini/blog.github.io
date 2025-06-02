@@ -1,0 +1,176 @@
+---
+---
+
+// Import Tailwind CSS (via CDN in layout)
+// Custom styles for your blog
+
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+// Prose styles for blog content
+.prose {
+  color: #374151;
+  max-width: none;
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: #111827;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  
+  p {
+    margin-bottom: 1rem;
+  }
+  
+  ul, ol {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+  
+  li {
+    margin-bottom: 0.5rem;
+  }
+  
+  blockquote {
+    border-left: 4px solid #3b82f6;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: #6b7280;
+  }
+  
+  code {
+    background-color: #f3f4f6;
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    color: #ef4444;
+  }
+  
+  pre {
+    background-color: #1f2937;
+    color: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    
+    code {
+      background-color: transparent;
+      color: inherit;
+      padding: 0;
+    }
+  }
+  
+  a {
+    color: #3b82f6;
+    text-decoration: underline;
+    
+    &:hover {
+      color: #1d4ed8;
+    }
+  }
+  
+  img {
+    border-radius: 0.5rem;
+    margin: 1.5rem 0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 0.75rem;
+      text-align: left;
+    }
+    
+    th {
+      background-color: #f9fafb;
+      font-weight: 600;
+    }
+  }
+}
+
+// Smooth transitions
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+// Custom scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+// Focus styles for accessibility
+.focus\:outline-none:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+// Animation classes
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out;
+}
+
+// Mobile responsive adjustments
+@media (max-width: 768px) {
+  .prose {
+    font-size: 0.875rem;
+    
+    h1 { font-size: 1.5rem; }
+    h2 { font-size: 1.25rem; }
+    h3 { font-size: 1.125rem; }
+  }
+}
+
+// Dark mode support (optional)
+@media (prefers-color-scheme: dark) {
+  .dark-mode {
+    .prose {
+      color: #d1d5db;
+      
+      h1, h2, h3, h4, h5, h6 {
+        color: #f9fafb;
+      }
+      
+      blockquote {
+        color: #9ca3af;
+        border-left-color: #60a5fa;
+      }
+      
+      code {
+        background-color: #374151;
+        color: #fbbf24;
+      }
+    }
+  }
+}

@@ -1,0 +1,107 @@
+---
+layout: default
+---
+
+<article class="max-w-4xl mx-auto">
+    <!-- Blog Post Card Component -->
+    <div class="max-w-2xl mx-auto p-3 sm:p-6">
+        <div class="bg-white rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+            <!-- Header Image -->
+            {% if page.image %}
+            <div class="relative h-40 sm:h-48 overflow-hidden">
+                <img 
+                    src="{{ page.image }}"
+                    alt="{{ page.title }}"
+                    class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                />
+                <div class="absolute top-3 right-3 sm:top-4 sm:right-4">
+                    <span class="bg-blue-500 text-white px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm font-medium">
+                        {{ page.category }}
+                    </span>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Main Content -->
+            <div class="p-4 sm:p-6">
+                <!-- Title -->
+                <h1 class="text-lg sm:text-2xl font-bold text-gray-900 mb-2 leading-tight">
+                    {{ page.title }}
+                </h1>
+
+                <!-- Excerpt -->
+                {% if page.excerpt %}
+                <p class="text-sm sm:text-base text-gray-600 mb-4 leading-relaxed">
+                    {{ page.excerpt }}
+                </p>
+                {% endif %}
+
+                <!-- Author Info -->
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm sm:text-base">
+                            {% assign author_initials = page.author | split: ' ' %}
+                            {% for word in author_initials %}{{ word | slice: 0 }}{% endfor %}
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-sm sm:text-base font-medium text-gray-900">{{ page.author }}</span>
+                            <span class="text-xs sm:text-sm text-gray-500">{{ page.date | date: "%d %B %Y" }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Meta Info -->
+                    <div class="flex items-center gap-4 text-xs sm:text-sm text-gray-600">
+                        {% if page.read_time %}
+                        <div class="flex items-center gap-1">
+                            <svg class="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                            <span>{{ page.read_time }}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Tags -->
+                {% if page.tags %}
+                <div class="flex flex-wrap gap-2 mb-6">
+                    {% for tag in page.tags %}
+                    <span class="flex items-center gap-1 bg-gray-100 text-gray-700 px-2 py-1 sm:px-3 rounded-full text-xs sm:text-sm hover:bg-gray-200 transition-colors cursor-pointer">
+                        <svg class="w-2 h-2 sm:w-3 sm:h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/>
+                        </svg>
+                        {{ tag }}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Full Content -->
+                <div class="prose prose-sm sm:prose max-w-none">
+                    {{ content }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="max-w-2xl mx-auto mt-8 px-3 sm:px-6">
+        <div class="flex justify-between items-center">
+            {% if page.previous.url %}
+            <a href="{{ page.previous.url | relative_url }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                ← {{ page.previous.title | truncate: 30 }}
+            </a>
+            {% else %}
+            <div></div>
+            {% endif %}
+
+            {% if page.next.url %}
+            <a href="{{ page.next.url | relative_url }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                {{ page.next.title | truncate: 30 }} →
+            </a>
+            {% else %}
+            <div></div>
+            {% endif %}
+        </div>
+    </div>
+</article>

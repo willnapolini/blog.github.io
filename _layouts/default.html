@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    {% include head.html %}
+</head>
+<body class="bg-gray-50 min-h-screen">
+    {% include header.html %}
+    
+    <main class="container mx-auto px-4 py-8">
+        {{ content }}
+    </main>
+    
+    {% include footer.html %}
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+</body>
+</html>
