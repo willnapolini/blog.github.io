@@ -200,5 +200,3 @@ Once your blog is running:
 5. **Add RSS feed** (already included with jekyll-feed plugin)
 6. **Set up Google Analytics**
 7. **Create a sitemap** (already included with jekyll-sitemap plugin)
-
-Your blog is now ready to use! The card design from your original code has been integrated into the Jekyll layouts, providing a beautiful and responsive design for your posts.
